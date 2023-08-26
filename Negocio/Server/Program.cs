@@ -1,14 +1,21 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Negocio.Bdata.Data;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(x =>
+x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<Context>(op => op.UseSqlServer("name=conn"));
+builder.Services.AddSwaggerGen(c =>
+c.SwaggerDoc("v1", new OpenApiInfo { Title = "Persona", Version = "v1" })
+);
 
 var app = builder.Build();
 
@@ -16,7 +23,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Persona v1"));
 }
+
 else
 {
     app.UseExceptionHandler("/Error");

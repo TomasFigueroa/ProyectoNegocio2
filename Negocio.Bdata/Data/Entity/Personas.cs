@@ -27,7 +27,7 @@ namespace Negocio.Bdata.Data.Entity
         [Required(ErrorMessage = "El Código de la Especialidad es Obligatorio")]
         [MaxLength(10, ErrorMessage = "Solo se aceptan hasta 10 caracteres en el Telefono")]
 
-        public string Telefono { get; set; } = "";
+        public int Telefono { get; set; }
 
         [Required(ErrorMessage = "El Código de la Especialidad es Obligatorio")]
         [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en el Email")]
@@ -35,8 +35,8 @@ namespace Negocio.Bdata.Data.Entity
 
 
         [Required(ErrorMessage = "El Código de la Especialidad es Obligatorio")]
-        [MaxLength(20, ErrorMessage = "Solo se aceptan hasta 20 caracteres en Direccion")]
-        public string Direccion { get; set; } = "";
+        [MaxLength(5, ErrorMessage = "Solo se aceptan hasta 5 caracteres en Direccion")]
+        public int Direccion { get; set; }
 
        
 

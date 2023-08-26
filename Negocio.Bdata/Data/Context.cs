@@ -13,6 +13,8 @@ namespace Negocio.Bdata.Data
         public DbSet<Personas> personas => Set<Personas>();
         public DbSet<Cuenta> cuentas => Set<Cuenta>();
 
+        public DbSet<Saldo> saldos => Set<Saldo>();
+
         public Context(DbContextOptions options) : base(options)
         {
         }

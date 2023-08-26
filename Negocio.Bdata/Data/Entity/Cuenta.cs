@@ -20,7 +20,7 @@ namespace Negocio.Bdata.Data.Entity
 
         [Required(ErrorMessage = "El Saldo es Obligatorio")]
         [MaxLength(10, ErrorMessage = "Solo se aceptan hasta 10 caracteres en el saldo")]
-        public int Saldo { get; set; }
+        public int SaldoTotal { get; set; }
 
         [Required(ErrorMessage = "El Saldo es Obligatorio")]
         [MaxLength(3, ErrorMessage = "Solo se aceptan hasta 10 caracteres en el cuotas")]
