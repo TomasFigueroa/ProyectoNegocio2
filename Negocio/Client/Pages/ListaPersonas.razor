@@ -1,0 +1,86 @@
+﻿@page "/personas"
+@inject IHttpServicio http
+
+<PageTitle>PERSONAS</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="Listado de Personas" />
+</HeadContent>
+
+<h3>Lista de Personas</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Direccion</th>
+        </tr>
+    </thead>
+ 
+    <tbody>
+        @if (Error)
+        {
+            <tr>@Mensaje</tr>
+        }
+        else
+        {
+            @if (personas == null)
+            {
+                <tr>Cargando....</tr>
+            }
+            else if (personas.Count == 0)
+            {
+                <tr>no existen datos</tr>
+            }
+            else
+            {
+                @foreach (var item in personas)
+                {
+                    <tr>
+                        <td>@item.DNI</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Telefono</td>
+                        <td>@item.Email</td>
+                        <td>@item.Direccion</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+   
+</table>
+
+@code {
+   
+
+    List<Personas>? personas;
+    bool Error = false;
+    string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        var respuesta = await http.Get<List<Personas>>("api/personas");
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+        {
+            personas = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+    }
+
+}
+
+
+

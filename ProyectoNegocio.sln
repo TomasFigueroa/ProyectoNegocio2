@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Negocio.Client", "Negocio\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Negocio.Shared", "Negocio\Shared\Negocio.Shared.csproj", "{9113828E-4A18-4FEC-BAFD-5B30B61A438B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio.Bdata", "Negocio.Bdata\Negocio.Bdata.csproj", "{2B5934D6-4B90-4E5C-983B-C2C357BEF788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Negocio.Bdata", "Negocio.Bdata\Negocio.Bdata.csproj", "{2B5934D6-4B90-4E5C-983B-C2C357BEF788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
