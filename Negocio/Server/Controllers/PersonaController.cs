@@ -16,7 +16,7 @@ namespace Negocio.Server.Controllers
         {
             this.context = context;
         }
-        [HttpGet]
+        [HttpGet] 
         public async Task<ActionResult<List<Personas>>> Get()
         {
             return await context.personas.ToListAsync();
@@ -59,7 +59,7 @@ namespace Negocio.Server.Controllers
             
         }
         [HttpPut]
-        public async Task<IActionResult> Editar(PersonaDTO personaDTO, int dni)
+        public async Task<IActionResult> Editar(PersonaDTO personaDTO, string dni)
         {
             var responseApi = new ResponseAPI<int>();
             try
@@ -75,7 +75,7 @@ namespace Negocio.Server.Controllers
                     context.personas.Update(dbPersona);
                     await context.SaveChangesAsync();
                     responseApi.EsCorrecto = true;
-                    responseApi.Valor = dbPersona.DNI;
+                    responseApi.Valor = dbPersona.Id;
 
                 }
                 else

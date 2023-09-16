@@ -1,5 +1,5 @@
 .navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255,255,255,0.25);
 }
 
 .top-row {
@@ -46,7 +46,7 @@
 }
 
 .nav-item ::deep a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgb(0, 255, 0);
     color: white;
 }
 

@@ -1,0 +1,113 @@
+﻿@page "/personas"
+@inject IHttpServicio http
+
+<PageTitle>PERSONAS</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="Listado de Personas" />
+</HeadContent>
+
+<h3>Lista de Personas</h3>
+
+<a class="btn btn-success text-center d-inline-block mb-4 " href="personas/crear">
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+    </svg>
+</a>
+
+<table class="table table-hover">
+    <thead class="fondo3 text-center fw-bolder">
+        <tr>
+            <th scope ="col" class="px-6 py-2 font-weight-bold text-black h4">DNI</th>
+            <th scope="col" class="px-6 py-2 font-weight-bold text-black h4">Nombre</th>
+            <th scope="col" class="px-6 py-2 font-weight-bold text-black h4">Telefono</th>
+            <th scope="col" class="px-6 py-2 font-weight-bold text-black h4">Email</th>
+            <th scope="col" class="px-6 py-2 font-weight-bold text-black h4">Direccion</th>
+            <th scope="col" class="px-6 py-2 font-weight-bold text-black h4">Accion</th>
+
+        </tr>
+    </thead>
+ 
+    <tbody>
+        @if (Error)
+        {
+            <tr>@Mensaje</tr>
+        }
+        else
+        {
+            @if (personas == null)
+            {
+                <tr>Cargando....</tr>
+            }
+            else if (personas.Count == 0)
+            {
+                <tr>no existen datos</tr>
+            }
+            else
+            {
+                @foreach (var item in personas)
+                {
+                    <tr >
+                        <td class="p-3  text-center text-dark-100 fondo4">@item.DNI</td>
+                        <td class="p-3  text-center fondo4">@item.Nombre</td>
+                        <td class="p-3  text-center fondo4">@item.Telefono</td>
+                        <td class="p-3  text-center fondo4"> @item.Email</td>
+                        <td class="p-3  text-center fondo4">@item.Direccion</td>
+                        <td class="p-3  d-flex justify-content-center align-items-center gap-2 fondo4">
+
+                            <a class="btn btn-primary  d-inline-block mr-1"
+                               href="persona/editar/@item.Id">
+                                <i class="oi oi-pencil"></i>
+                            </a>
+                            <a class="btn btn-dark  d-inline-block mr-1"
+                               href="ventas/@item.DNI">
+                                <i class="oi oi-cart"></i>
+                            </a>
+                            <a class="btn btn-danger  d-inline-block mr-1"
+                               href="venta/@item.">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill-x" viewBox="0 0 16 16">
+                                    <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
+                                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+   
+</table>
+
+@code {
+   
+
+    List<Personas>? personas;
+    bool Error = false;
+    string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        var respuesta = await http.Get<List<Personas>>("api/personas");
+        Error = respuesta.Error;
+        if (!respuesta.Error)
+        {
+            personas = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+    }
+
+}
+
+
+

@@ -1,0 +1,36 @@
+﻿@page "/venta/crear"
+
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+<h3>Nueva Venta</h3>
+
+<FormVenta vent="venta" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Venta venta = new Venta();
+
+    private async void Grabar()
+    {
+        VentaDTO ventaDTO = new()
+            {
+                idpersona = venta.Idpersona,
+                codigo_venta = venta.Codigo_Cuenta,
+                descripcion = venta.descripcion
+            };
+
+        var httpRespueta = await http.Post<VentaDTO>("api/venta", ventaDTO);
+
+        if (httpRespueta.Error)
+        {
+            var body = httpRespueta.HttpResponseMessage;
+        }
+
+        navigationManager.NavigateTo("/personas");
+    }
+
+    private async void Cancelar()
+    {
+        navigationManager.NavigateTo("/personas");
+    }
+
+}

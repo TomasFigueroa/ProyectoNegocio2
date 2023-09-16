@@ -1,0 +1,37 @@
+﻿@page "/personas/crear"
+
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+<h3>Nueva Persona</h3>
+
+<Formpersonas pers="personas" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Personas personas = new Personas();
+
+    private async void Grabar() 
+    {
+        PersonaDTO personaDTO = new()
+            {
+                DNI = personas.DNI,
+                Nombre = personas.Nombre,
+                Telefono = personas.Telefono,
+                Email = personas.Email,
+                Direccion = personas.Direccion
+        };
+        var httpRespueta = await http.Post<PersonaDTO>("api/personas", personaDTO);
+
+        if (httpRespueta.Error)
+        {
+            var body = httpRespueta.HttpResponseMessage;
+        }
+
+        navigationManager.NavigateTo("/personas");
+    }
+
+    private async void Cancelar()
+    {
+        navigationManager.NavigateTo("/personas");
+    }
+
+}

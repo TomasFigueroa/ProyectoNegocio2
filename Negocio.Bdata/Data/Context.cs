@@ -11,9 +11,10 @@ namespace Negocio.Bdata.Data
     public class Context:DbContext
     {
         public DbSet<Personas> personas => Set<Personas>();
-        public DbSet<Cuenta> cuentas => Set<Cuenta>();
 
-        public DbSet<Saldo> saldos => Set<Saldo>();
+        public DbSet<Venta> ventas => Set<Venta>();
+
+        public DbSet<Cuota> cuotas => Set<Cuota>();
 
         public Context(DbContextOptions options) : base(options)
         {

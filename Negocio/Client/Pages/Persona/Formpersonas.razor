@@ -1,0 +1,50 @@
+﻿<EditForm Model="pers" OnValidSubmit="onValidSubbmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>DNI</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@pers.DNI" />
+            <ValidationMessage For="@(() => pers.DNI)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Nombre</label>
+        <div>
+            <InputText class="form-control"  @bind-Value="@pers.Nombre" />
+            <ValidationMessage For="@(() => pers.Nombre)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Telefono</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@pers.Telefono" />
+            <ValidationMessage For="@(() => pers.Telefono)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <div>
+            <InputText class="form-control" type="email" @bind-Value="@pers.Email" />
+            <ValidationMessage For="@(() => pers.Email)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Direccion</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@pers.Direccion" />
+            <ValidationMessage For="@(() => pers.Direccion)" />
+        </div>
+    </div>
+    <br />
+    <button class="btn btn-primary" type="submit">Aceptar</button>
+    <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+</EditForm>
+
+@code {
+    [Parameter] public Personas pers { get; set; } = new Personas();
+    [Parameter] public EventCallback onValidSubbmit { get; set; }
+    [Parameter] public EventCallback onCancel { get; set; }
+}

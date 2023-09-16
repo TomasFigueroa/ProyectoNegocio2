@@ -1,0 +1,45 @@
+﻿<EditForm Model="vent" OnValidSubmit="onValidSubbmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>DNI</label>
+        <div>
+
+            <InputNumber class="form-control" type="number" @bind-Value="vent.Idpersona" />
+
+            
+                <ValidationMessage For="@(() => vent.Idpersona)" />
+           
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Codigo Cuenta</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@vent.Codigo_Cuenta" />
+            <ValidationMessage For="@(() => vent.Codigo_Cuenta)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Descripcion</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@vent.descripcion" />
+            <ValidationMessage For="@(() => vent.descripcion)" />
+        </div>
+    </div>
+
+    
+    <br />
+    <button class="btn btn-primary"  type="submit" >Aceptar</button>
+    <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+</EditForm>
+
+
+
+@code {
+  
+    [Parameter] public Venta vent{ get; set; } = new Venta();
+    [Parameter] public EventCallback onValidSubbmit { get; set; }
+    [Parameter] public EventCallback onCancel { get; set; }
+  
+    
+}

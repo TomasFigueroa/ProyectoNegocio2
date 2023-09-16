@@ -1,0 +1,51 @@
+﻿<EditForm Model="cuot" OnValidSubmit="onValidSubbmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>DNI</label>
+        <div>
+
+            <InputNumber class="form-control" type="number" @bind-Value="cuot.Idventa" />
+
+
+            <ValidationMessage For="@(() => cuot.Idventa)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Codigo de Cuota</label>
+        <div>
+           <InputText class="form-control" @bind-Value="@cuot.codigo_cuotas" />
+            <ValidationMessage For="@(() => cuot.codigo_cuotas)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Numero de Cuota</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@cuot.Numero_cuotas" />
+            <ValidationMessage For="@(() => cuot.Numero_cuotas)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Total pagado</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@cuot.total" />
+            <ValidationMessage For="@(() => cuot.total)" />
+        </div>
+    </div>
+
+
+    <br />
+    <button class="btn btn-primary" type="submit">Aceptar</button>
+    <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
+</EditForm>
+
+
+
+@code {
+
+    [Parameter] public Cuota cuot { get; set; } = new Cuota();
+    [Parameter] public EventCallback onValidSubbmit { get; set; }
+    [Parameter] public EventCallback onCancel { get; set; }
+
+
+}

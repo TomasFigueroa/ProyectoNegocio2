@@ -1,0 +1,39 @@
+﻿@page "/cuota/crear"
+
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+<h3>Nueva Cuota</h3>
+
+<FormCuota cuot="cuota" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Cuota cuota = new Cuota();
+    
+    private async void Grabar()
+    {
+        CuotaDTO cuotaDTO = new()
+            {
+                Codigo_cuotas = cuota.codigo_cuotas,
+                Numero_cuotas = cuota.Numero_cuotas,
+                total = cuota.total,
+                idpersona = cuota.Idventa
+
+             
+            };
+
+        var httpRespueta = await http.Post<CuotaDTO>("api/cuota", cuotaDTO);
+
+        if (httpRespueta.Error)
+        {
+            var body = httpRespueta.HttpResponseMessage;
+        }
+
+        navigationManager.NavigateTo("/personas");
+    }
+
+    private async void Cancelar()
+    {
+        navigationManager.NavigateTo("/personas");
+    }
+
+}

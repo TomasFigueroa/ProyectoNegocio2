@@ -1,0 +1,59 @@
+﻿@page "/persona/editar/{personaId:int}"
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+<h3>Editar Profesion</h3>
+
+<Formpersonas pers="persona" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Personas persona = new();
+    [Parameter] public int personaId { get; set; }
+    string Mensaje = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Personas>($"api/personas/{personaId}");
+
+        if (!respuesta.Error)
+        {
+            persona = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+        
+    }
+
+    private async void Grabar()
+    {
+        // PersonaDTO personaDTO = new()
+        //    {
+        //        DNI = persona.DNI,
+        //        Nombre = persona.Nombre,
+        //        Telefono = persona.Telefono,
+        //        Email = persona.Email,
+        //        Direccion = persona.Direccion
+        //};
+        //var httpRespueta = await http.Post<PersonaDTO>("api/personas", personaDTO);
+
+        //if (httpRespueta.Error)
+        //{
+        //    var body = httpRespueta.HttpResponseMessage;
+        //}
+
+        navigationManager.NavigateTo("/personas");
+    }
+
+    private async void Cancelar()
+    {
+        navigationManager.NavigateTo("/personas");
+    }
+}
