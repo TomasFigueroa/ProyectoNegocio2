@@ -44,8 +44,8 @@
                                href="persona">
                                 <i class="oi oi-pencil"></i>
                             </a>
-                            <a class="btn btn-danger  d-inline-block mr-1"
-                               href="venta">
+                            <a class="btn btn-danger  d-inline-block mr-1" @onclick="()=>Eliminar(item)">
+                              
                                 <i class="oi oi-delete"></i>
                             </a>
                         </td>
@@ -67,7 +67,7 @@
 </table>
 
 @code {
-
+    Cuota cuotaborrar;
     List<Cuota> cuota;
    
     [Parameter] public int idpersona { get; set; }
@@ -94,6 +94,18 @@
             Mensaje = await respuesta.ObtenerError();
         }
 
+    }
+    private async Task Eliminar(Cuota cuotaBorrar)
+    {
+        cuotaborrar = cuotaBorrar;
+
+        var respuesta = await http.Delete($"api/cuota/{cuotaborrar.Id}");
+        if (respuesta.Error)
+        {
+            var body = "error no se pudo borrar";
+        }
+        cuotaborrar = null;
+        await Mostrar();
     }
 
 

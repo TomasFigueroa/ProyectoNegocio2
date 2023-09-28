@@ -91,6 +91,24 @@ namespace Negocio.Server.Controllers
             }
             return Ok(responseApi);
         }
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(Personas entidad, int id)
+        {
+            if (id != entidad.Id)
+            {
+                return BadRequest("El id de la Persona no corresponde.");
+            }
+
+            var existe = await context.personas.AnyAsync(x => x.Id == id);
+            if (!existe)
+            {
+                return NotFound($"La Personas de id={id} no existe");
+            }
+
+            context.Update(entidad);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {

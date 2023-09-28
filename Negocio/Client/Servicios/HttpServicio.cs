@@ -40,6 +40,26 @@ namespace Negocio.Client.Servicios
                                             respuesta);
 
         }
+        public async Task<HttpRespuesta<object>> Put<T>(string url, T enviar)
+        {
+            var enviarJson = JsonSerializer.Serialize(enviar);
+            var enviarContent = new StringContent(enviarJson,
+                                Encoding.UTF8,
+                                "application/json");
+
+            var respuesta = await http.PutAsync(url, enviarContent);
+            return new HttpRespuesta<object>(null,
+                                            !respuesta.IsSuccessStatusCode,
+                                            respuesta);
+        }
+
+        public async Task<HttpRespuesta<object>> Delete(string url)
+        {
+            var respuesta = await http.DeleteAsync(url);
+            return new HttpRespuesta<object>(null,
+                                            !respuesta.IsSuccessStatusCode,
+                                            respuesta);
+        }
         private async Task<T?> DesSerlizar<T>(HttpResponseMessage response)
         {
             var respuestaStr = await response.Content.ReadAsStringAsync();

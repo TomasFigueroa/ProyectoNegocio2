@@ -8,8 +8,8 @@
 
 @code {
     private Cuota cuota = new Cuota();
-    
-    private async void Grabar()
+     
+    private async Task Grabar()
     {
         CuotaDTO cuotaDTO = new()
             {
@@ -31,7 +31,7 @@
         navigationManager.NavigateTo("/personas");
     }
 
-    private async void Cancelar()
+    private void Cancelar()
     {
         navigationManager.NavigateTo("/personas");
     }

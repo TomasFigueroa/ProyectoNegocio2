@@ -95,13 +95,13 @@ namespace Negocio.Server.Controllers
             [HttpDelete("{Id:int}")]
             public async Task<ActionResult> Delete(int id)
             {
-                var existe = await context.cuotas.AnyAsync(x => x.Idventa == id);
+                var existe = await context.cuotas.AnyAsync(x => x.Id == id);
                 if (!existe)
                 {
                     return NotFound($"La Cuota de id={id} no existe");
                 }
                 Cuota pepe = new Cuota();
-                pepe.Idventa = id;
+                pepe.Id = id;
              
                 context.Remove(pepe);
 

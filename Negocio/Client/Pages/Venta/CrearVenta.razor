@@ -9,7 +9,7 @@
 @code {
     private Venta venta = new Venta();
 
-    private async void Grabar()
+    private async Task Grabar()
     {
         VentaDTO ventaDTO = new()
             {
@@ -28,7 +28,7 @@
         navigationManager.NavigateTo("/personas");
     }
 
-    private async void Cancelar()
+    private void Cancelar()
     {
         navigationManager.NavigateTo("/personas");
     }
