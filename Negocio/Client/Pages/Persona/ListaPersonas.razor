@@ -84,14 +84,14 @@
               verCancelar="true"
               verOk="true"
               textOk="Aceptar"
-              Titulo="Borrar Persona"
+              Titulo="Borrar Couta"
               onCancel="Cancelar"
               onConfirm="Borrar">
   
     <div>
-        <h1>Está por borrar la Persona </h1>
+        <h1>Está por borrar la cuota </h1>
         <br />
-        ¿Está seguro que desea Borrar es posible que la persona tenga ventas activas?
+        ¿Está seguro que desea Borrar esta cuota?
     </div>
 </Confirmacion>
 
@@ -137,28 +137,7 @@
     bool verdadero= false;
     private async Task Borrar()
     {
-        //Leer();
-        //int idPersonaAValidar = Int32.Parse(personaBorrar.DNI); // Reemplaza con el ID de la persona que deseas validar
-
-        ////// Verificar si la persona tiene ventas asociadas
-        ////bool tieneVentasAsociadas = false;
-        //bool tieneVentasAsociadas = ventas.Any(venta => venta.Idpersona == idPersonaAValidar);
-        ////foreach (var venta in ventas)
-        ////{
-        ////    if (venta.Idpersona == idPersonaAValidar)
-        ////    {
-        ////        tieneVentasAsociadas = true;
-        ////        break; // Puedes salir del bucle una vez que se encuentra una venta asociada.
-        ////    }
-        ////}
-        //if (tieneVentasAsociadas)
-        //{
-        //    // La persona tiene ventas asociadas.
-        //    body="La persona tiene ventas asociadas.";
-        //}
-        //else
-        //{
-            // La persona no tiene ventas asociadas.
+           
             
             var respuesta = await http.Delete($"api/personas/{personaBorrar.Id}");
             if (respuesta.Error)

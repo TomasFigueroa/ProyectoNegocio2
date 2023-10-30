@@ -76,9 +76,23 @@
     </tbody>
 
 </table>
+<Confirmacion @ref="confirmacion"
+              verCancelar="true"
+              verOk="true"
+              textOk="Aceptar"
+              Titulo="Borrar Venta"
+              onCancel="Cancelar"
+              onConfirm="Borrar">
 
+    <div>
+        <h1>Está por borrar la Venta </h1>
+        <br />
+        ¿Está seguro que desea Borrar la venta es posible que tenga cuotas por pagar?
+    </div>
+</Confirmacion>
 
 @code {
+    Confirmacion confirmacion;
     Venta ventaborrar;
     List<Venta>? venta;
 
@@ -93,30 +107,40 @@
         await Mostrar();
     }
 
-     private async Task Mostrar()
+    private async Task Mostrar()
     {
         var respuesta = await http.Get<List<Venta>>($"api/venta");
         Error = respuesta.Error;
         if (!respuesta.Error)
         {
-          venta = respuesta.Respuesta;
+            venta = respuesta.Respuesta;
         }
         else
         {
             Mensaje = await respuesta.ObtenerError();
         }
-        
+
     }
-    private async Task Eliminar(Venta ventBorrar)
+    private void Cancelar()
     {
-        ventaborrar = ventBorrar;
+        confirmacion.Ocultar();
+        ventaborrar = null;
+    }
+    private async Task Eliminar(Venta ventaBorrar)
+    {
+        ventaborrar = ventaBorrar;
+        confirmacion.Ver();
+    }
+    private async Task Borrar()
+    {
+
 
         var respuesta = await http.Delete($"api/venta/{ventaborrar.id}");
         if (respuesta.Error)
         {
             var body = "error no se pudo borrar";
         }
-        ventaborrar = null;
+        Cancelar();
         await Mostrar();
     }
    

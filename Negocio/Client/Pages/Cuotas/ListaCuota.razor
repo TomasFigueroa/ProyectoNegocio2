@@ -67,18 +67,32 @@
     </tbody>
 
 </table>
+<Confirmacion @ref="confirmacion"
+              verCancelar="true"
+              verOk="true"
+              textOk="Aceptar"
+              Titulo="Borrar Persona"
+              onCancel="Cancelar"
+              onConfirm="Borrar">
 
+    <div>
+        <h1>Está por borrar la Persona </h1>
+        <br />
+        ¿Está seguro que desea Borrar es posible que la persona tenga ventas activas?
+    </div>
+</Confirmacion>
 @code {
+    Confirmacion confirmacion;
     Cuota cuotaborrar;
     List<Cuota> cuota;
-    
+
     [Parameter] public int idventa { get; set; }
     [Parameter] public int idpersona { get; set; }
     bool Error = false;
     string Mensaje = "";
-    
-    
-    
+
+
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -99,16 +113,27 @@
         }
 
     }
-    private async Task Eliminar(Cuota cuotaBorrar)
+    private void Cancelar()
     {
-        cuotaborrar = cuotaBorrar;
+        confirmacion.Ocultar();
+        cuotaborrar = null;
+    }
+    private async Task Eliminar(Cuota cuotBorrar)
+    {
+        cuotaborrar = cuotBorrar;
+        confirmacion.Ver();
+    }
+
+    private async Task Borrar()
+    {
+       
 
         var respuesta = await http.Delete($"api/cuota/{cuotaborrar.Id}");
         if (respuesta.Error)
         {
             var body = "error no se pudo borrar";
         }
-        cuotaborrar = null;
+        Cancelar();
         await Mostrar();
     }
 
