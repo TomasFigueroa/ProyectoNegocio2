@@ -9,12 +9,13 @@
 
 <h3>Lista de Personas</h3>
 
-<a class="btn btn-success text-center d-inline-block mb-4 " href="personas/crear">
-    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
-        <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-        <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
-    </svg>
-</a>
+<a class="btn btn-success d-inline-flex align-items-center justify-content-center p-2 rounded-circle mb-4" href="personas/crear" style="width: 50px; height: 50px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+        </svg>
+    </a>
+
 
 <table class="table table-hover">
     <thead class="fondo3 text-center fw-bolder">
@@ -29,7 +30,7 @@
         </tr>
     </thead>
  
-    <tbody>
+    <tbody> 
         @if (Error)
         {
             <tr>@Mensaje</tr>
@@ -79,10 +80,26 @@
     </tbody>
    
 </table>
+<Confirmacion @ref="confirmacion"
+              verCancelar="true"
+              verOk="true"
+              textOk="Aceptar"
+              Titulo="Borrar Persona"
+              onCancel="Cancelar"
+              onConfirm="Borrar">
+  
+    <div>
+        <h1>Está por borrar la Persona </h1>
+        <br />
+        ¿Está seguro que desea Borrar es posible que la persona tenga ventas activas?
+    </div>
+</Confirmacion>
 
 @code {
+    Confirmacion confirmacion;
     Personas personaBorrar;
     List<Personas>? personas;
+    List<Venta>? ventas;
     bool Error = false;
     string Mensaje = "";
 
@@ -94,6 +111,7 @@
 
     private async Task Leer()
     {
+        await http.Get<List<Venta>>($"api/venta");
         var respuesta = await http.Get<List<Personas>>("api/personas");
         Error = respuesta.Error;
         if (!respuesta.Error)
@@ -105,17 +123,53 @@
             Mensaje = await respuesta.ObtenerError();
         }
     }
+    private void Cancelar()
+    {
+        confirmacion.Ocultar();
+        personaBorrar = null;
+    }
     private async Task Eliminar(Personas persBorrar)
     {
         personaBorrar = persBorrar;
+        confirmacion.Ver();
+    }
+    string body= "";
+    bool verdadero= false;
+    private async Task Borrar()
+    {
+        //Leer();
+        //int idPersonaAValidar = Int32.Parse(personaBorrar.DNI); // Reemplaza con el ID de la persona que deseas validar
 
-        var respuesta = await http.Delete($"api/personas/{personaBorrar.Id}");
-        if (respuesta.Error)
-        {
-            var body = "error no se pudo borrar";
-        }
-        personaBorrar = null;
-        await Leer();
+        ////// Verificar si la persona tiene ventas asociadas
+        ////bool tieneVentasAsociadas = false;
+        //bool tieneVentasAsociadas = ventas.Any(venta => venta.Idpersona == idPersonaAValidar);
+        ////foreach (var venta in ventas)
+        ////{
+        ////    if (venta.Idpersona == idPersonaAValidar)
+        ////    {
+        ////        tieneVentasAsociadas = true;
+        ////        break; // Puedes salir del bucle una vez que se encuentra una venta asociada.
+        ////    }
+        ////}
+        //if (tieneVentasAsociadas)
+        //{
+        //    // La persona tiene ventas asociadas.
+        //    body="La persona tiene ventas asociadas.";
+        //}
+        //else
+        //{
+            // La persona no tiene ventas asociadas.
+            
+            var respuesta = await http.Delete($"api/personas/{personaBorrar.Id}");
+            if (respuesta.Error)
+            {
+                body = "error no se pudo borrar";
+            }
+            Cancelar();
+            await Leer();
+      
+       
+       
     }
 
 }

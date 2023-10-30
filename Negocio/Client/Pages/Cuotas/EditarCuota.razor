@@ -1,0 +1,55 @@
+﻿@page "/cuota/editar/{cuotaId:int}/{idpersona:int}/{idventa:int}"
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+
+
+<FormCuota cuot="cuota" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Cuota cuota = new();
+    [Parameter] public int cuotaId { get; set; }
+    [Parameter] public int idpersona { get; set; }
+    [Parameter] public int idventa { get; set; }
+    string Mensaje = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Cuota>($"api/cuota/{cuotaId}");
+
+        if (!respuesta.Error)
+        {
+            cuota = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+        
+    }
+    
+
+    private async Task Grabar()
+    {
+        var respuesta = await http.Put<Cuota>($"api/cuota/{cuotaId}",
+                                                  cuota);
+        if (respuesta.Error)
+        {
+            var body = respuesta.HttpResponseMessage;
+        }
+
+        navigationManager.NavigateTo($"/cuota/{idventa}/{idpersona}");
+    }
+
+    private void Cancelar()
+    {
+        navigationManager.NavigateTo($"/cuota/{idventa}/{idpersona}");
+    }
+}
+

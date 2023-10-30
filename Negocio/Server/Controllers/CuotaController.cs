@@ -24,15 +24,15 @@ namespace Negocio.Server.Controllers
                 return await context.cuotas.ToListAsync();
             }
             [HttpGet("{id:int}")]
-            public async Task<ActionResult<List<Cuota>>> Get(int id)
+            public async Task<ActionResult<Cuota>> Get(int id)
             {
-                var existe = await context.cuotas.AnyAsync(x => x.Idventa == id);
+                var existe = await context.cuotas.AnyAsync(x => x.Id == id);
                 if (!existe)
                 {
                     return NotFound($"La Venta {id} no existe");
                 }
-                return await context.cuotas.ToListAsync();
-            }
+                return await context.cuotas.FirstOrDefaultAsync(x => x.Id == id);
+        }
             [HttpPost]
             public async Task<ActionResult<int>> Post(CuotaDTO cuota)
             {
@@ -40,9 +40,10 @@ namespace Negocio.Server.Controllers
               
                 try
                 {
-                   x.codigo_cuotas = cuota.Codigo_cuotas;
+                   
                     x.Numero_cuotas = cuota.Numero_cuotas;
                     x.total = cuota.total;
+                    x.dnipersona = cuota.dni;
                     x.Idventa = cuota.idpersona;
 
 
@@ -66,9 +67,11 @@ namespace Negocio.Server.Controllers
                     var dbcuota = await context.cuotas.FirstOrDefaultAsync(e => e.Idventa == Nc);
                     if (dbcuota != null)
                     {
-                        dbcuota.codigo_cuotas = cuota.Codigo_cuotas;
+                        
                         dbcuota.Numero_cuotas = cuota.Numero_cuotas;
                         dbcuota.total = cuota.total;
+                         
+                  
 
 
 
@@ -92,7 +95,25 @@ namespace Negocio.Server.Controllers
                 }
                 return Ok(responseApi);
             }
-            [HttpDelete("{Id:int}")]
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(Cuota entidad, int id)
+        {
+            if (id != entidad.Id)
+            {
+                return BadRequest("El id de la Persona no corresponde.");
+            }
+
+            var existe = await context.cuotas.AnyAsync(x => x.Id == id);
+            if (!existe)
+            {
+                return NotFound($"La Personas de id={id} no existe");
+            }
+
+            context.Update(entidad);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+        [HttpDelete("{Id:int}")]
             public async Task<ActionResult> Delete(int id)
             {
                 var existe = await context.cuotas.AnyAsync(x => x.Id == id);

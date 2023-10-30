@@ -5,7 +5,7 @@
 namespace Negocio.Bdata.Migrations
 {
     /// <inheritdoc />
-    public partial class inicio1 : Migration
+    public partial class inicalq1q : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +33,7 @@ namespace Negocio.Bdata.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Codigo_Cuenta = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    Saldo_Total = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
                     descripcion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Idpersona = table.Column<int>(type: "int", nullable: false),
                     PersonasId = table.Column<int>(type: "int", nullable: true)
@@ -54,7 +54,6 @@ namespace Negocio.Bdata.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    codigo_cuotas = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
                     total = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Numero_cuotas = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
                     Idventa = table.Column<int>(type: "int", nullable: false),
@@ -71,12 +70,6 @@ namespace Negocio.Bdata.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "Cuota_Codigo_cuotas_UQ",
-                table: "cuotas",
-                column: "codigo_cuotas",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_cuotas_Ventaid",
                 table: "cuotas",
                 column: "Ventaid");
@@ -91,12 +84,6 @@ namespace Negocio.Bdata.Migrations
                 name: "IX_ventas_PersonasId",
                 table: "ventas",
                 column: "PersonasId");
-
-            migrationBuilder.CreateIndex(
-                name: "Venta_Codigo_Cuenta_UQ",
-                table: "ventas",
-                column: "Codigo_Cuenta",
-                unique: true);
         }
 
         /// <inheritdoc />

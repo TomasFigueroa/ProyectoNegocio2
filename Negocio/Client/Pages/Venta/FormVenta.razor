@@ -1,21 +1,21 @@
-﻿<EditForm Model="vent" OnValidSubmit="onValidSubbmit">
+﻿﻿<EditForm Model="vent" OnValidSubmit="onValidSubbmit">
     <DataAnnotationsValidator />
-    <div class="form-group">
+   @* <div class="form-group">
         <label>DNI</label>
         <div>
 
-            <InputNumber class="form-control" type="number" @bind-Value="vent.Idpersona" />
+            <InputNumber class="form-control"  @bind-Value="vent.Saldo_Total" />
 
-            
-                <ValidationMessage For="@(() => vent.Idpersona)" />
-           
+
+            <ValidationMessage For="@(() => vent.Saldo_Total)" />
+
         </div>
-    </div>
-    <div class="form-group">
-        <label>Codigo Cuenta</label>
+    </div>*@
+  <div class="form-group">
+        <label>Precio</label>
         <div>
-            <InputText class="form-control" @bind-Value="@vent.Codigo_Cuenta" />
-            <ValidationMessage For="@(() => vent.Codigo_Cuenta)" />
+            <InputText class="form-control" type="number" @bind-Value="@vent.Saldo_Total" />
+            <ValidationMessage For="@(() => vent.Saldo_Total)" />
         </div>
     </div>
 
@@ -27,19 +27,19 @@
         </div>
     </div>
 
-    
+
     <br />
-    <button class="btn btn-primary"  type="submit" >Aceptar</button>
+    <button class="btn btn-primary" type="submit">Aceptar</button>
     <button class="btn btn-secondary" @onclick="onCancel">Cancelar</button>
 </EditForm>
 
 
 
 @code {
-  
-    [Parameter] public Venta vent{ get; set; } = new Venta();
+
+    [Parameter] public Venta vent { get; set; } = new Venta();
     [Parameter] public EventCallback onValidSubbmit { get; set; }
     [Parameter] public EventCallback onCancel { get; set; }
-  
-    
+
+
 }

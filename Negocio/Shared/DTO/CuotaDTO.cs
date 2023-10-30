@@ -8,10 +8,12 @@ namespace Negocio.Shared.DTO
 {
     public class CuotaDTO
     {
-        public string Codigo_cuotas { get; set; }
+        
         public string total { get;set; }
         public string Numero_cuotas { get; set; }
 
         public int idpersona { get; set; }
+
+        public int dni { get; set; }
     }
 }

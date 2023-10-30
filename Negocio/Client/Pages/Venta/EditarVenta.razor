@@ -1,0 +1,53 @@
+﻿@page "/ventas/editar/{ventaId:int}/{idpersona:int}"
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+
+
+<FormVenta vent="venta" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+@code {
+    private Venta venta = new();
+    [Parameter] public int ventaId { get; set; }
+    [Parameter] public int idpersona { get; set; }
+    string Mensaje = "";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Venta>($"api/venta/{ventaId}");
+
+        if (!respuesta.Error)
+        {
+            venta = respuesta.Respuesta;
+        }
+        else
+        {
+            Mensaje = await respuesta.ObtenerError();
+        }
+        
+    }
+    
+
+    private async Task Grabar()
+    {
+        var respuesta = await http.Put<Venta>($"api/venta/{ventaId}",
+                                                  venta);
+        if (respuesta.Error)
+        {
+            var body = respuesta.HttpResponseMessage;
+        }
+
+        navigationManager.NavigateTo($"/ventas/{idpersona}");
+    }
+
+    private void Cancelar()
+    {
+        navigationManager.NavigateTo($"/ventas/{idpersona}");
+    }
+}

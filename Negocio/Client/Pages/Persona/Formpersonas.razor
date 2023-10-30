@@ -1,13 +1,15 @@
 ﻿<EditForm Model="pers" OnValidSubmit="onValidSubbmit">
     <DataAnnotationsValidator />
+    
     <div class="form-group">
         <label>DNI</label>
         <div>
-            <InputText class="form-control" @bind-Value="@pers.DNI" />
+            <InputText type="number" class="form-control" @bind-Value="@pers.DNI" />
             <ValidationMessage For="@(() => pers.DNI)" />
-        </div>
-    </div>
 
+        </div>
+
+    </div>
     <div class="form-group">
         <label>Nombre</label>
         <div>
@@ -19,10 +21,11 @@
     <div class="form-group">
         <label>Telefono</label>
         <div>
-            <InputText class="form-control" @bind-Value="@pers.Telefono" />
+            <InputText type="number" class="form-control" @bind-Value="@pers.Telefono" />
             <ValidationMessage For="@(() => pers.Telefono)" />
         </div>
     </div>
+    
 
     <div class="form-group">
         <label>Email</label>

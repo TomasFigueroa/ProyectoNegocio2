@@ -1,20 +1,29 @@
-﻿@page "/venta/crear"
+﻿@page "/venta/crear/{personaId:int}"
 
 @inject IHttpServicio http
 @inject NavigationManager navigationManager
 <h3>Nueva Venta</h3>
 
-<FormVenta vent="venta" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
+ <FormVenta vent="venta" onValidSubbmit="Grabar" onCancel="Cancelar" />
+
 
 @code {
+    [Parameter] public int personaId { get; set; }
     private Venta venta = new Venta();
+
+
+
+
 
     private async Task Grabar()
     {
+        venta.Idpersona = personaId;
+
         VentaDTO ventaDTO = new()
             {
                 idpersona = venta.Idpersona,
-                codigo_venta = venta.Codigo_Cuenta,
+                codigo_venta = venta.Saldo_Total,
                 descripcion = venta.descripcion
             };
 
@@ -25,12 +34,13 @@
             var body = httpRespueta.HttpResponseMessage;
         }
 
-        navigationManager.NavigateTo("/personas");
+        navigationManager.NavigateTo($"/ventas/{personaId}");
     }
 
     private void Cancelar()
     {
-        navigationManager.NavigateTo("/personas");
+   
+        navigationManager.NavigateTo($"/ventas/{personaId}");
     }
 
 }

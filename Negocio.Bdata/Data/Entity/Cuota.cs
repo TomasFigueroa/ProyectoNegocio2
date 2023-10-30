@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace Negocio.Bdata.Data.Entity
 {
-    [Index(nameof(codigo_cuotas), Name = "Cuota_Codigo_cuotas_UQ", IsUnique = true)]
+    //[Index(nameof(codigo_cuotas), Name = "Cuota_Codigo_cuotas_UQ", IsUnique = true)]
     public class Cuota
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "El codigo cuotas es Obligatorio")]
-        [MaxLength(10, ErrorMessage = "Solo se aceptan hasta 10 caracteres en el codigo_cuotas")]
-        public string codigo_cuotas { get; set; }
+     
 
         [Required(ErrorMessage = "El total es Obligatorio")]
         [MaxLength(10, ErrorMessage = "Solo se aceptan hasta 10 caracteres el total")]
@@ -25,6 +23,7 @@ namespace Negocio.Bdata.Data.Entity
         public string Numero_cuotas { get; set; }
 
         public int Idventa { get; set; }
+        public int dnipersona { get; set; }
 
     }
 }

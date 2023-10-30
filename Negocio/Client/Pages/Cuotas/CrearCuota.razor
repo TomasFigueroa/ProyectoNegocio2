@@ -1,4 +1,4 @@
-﻿@page "/cuota/crear"
+﻿@page "/cuota/crear/{CuotaId:int}/{personaId:int}"
 
 @inject IHttpServicio http
 @inject NavigationManager navigationManager
@@ -7,16 +7,19 @@
 <FormCuota cuot="cuota" onValidSubbmit="Grabar" onCancel="Cancelar" />
 
 @code {
+    [Parameter] public int personaId { get; set; }
+    [Parameter] public int CuotaId { get; set; }
     private Cuota cuota = new Cuota();
      
     private async Task Grabar()
     {
         CuotaDTO cuotaDTO = new()
             {
-                Codigo_cuotas = cuota.codigo_cuotas,
+                
                 Numero_cuotas = cuota.Numero_cuotas,
                 total = cuota.total,
-                idpersona = cuota.Idventa
+                dni = personaId,
+                idpersona = CuotaId
 
              
             };
@@ -28,12 +31,12 @@
             var body = httpRespueta.HttpResponseMessage;
         }
 
-        navigationManager.NavigateTo("/personas");
+        navigationManager.NavigateTo($"/cuota/{CuotaId}/{personaId}");
     }
 
     private void Cancelar()
     {
-        navigationManager.NavigateTo("/personas");
+        navigationManager.NavigateTo($"/cuota/{CuotaId}/{personaId}");
     }
 
 }

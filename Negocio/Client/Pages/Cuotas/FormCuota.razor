@@ -1,26 +1,11 @@
 ﻿<EditForm Model="cuot" OnValidSubmit="onValidSubbmit">
     <DataAnnotationsValidator />
-    <div class="form-group">
-        <label>DNI</label>
-        <div>
-
-            <InputNumber class="form-control" type="number" @bind-Value="cuot.Idventa" />
 
 
-            <ValidationMessage For="@(() => cuot.Idventa)" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Codigo de Cuota</label>
-        <div>
-           <InputText class="form-control" @bind-Value="@cuot.codigo_cuotas" />
-            <ValidationMessage For="@(() => cuot.codigo_cuotas)" />
-        </div>
-    </div>
     <div class="form-group">
         <label>Numero de Cuota</label>
         <div>
-            <InputText class="form-control" @bind-Value="@cuot.Numero_cuotas" />
+            <InputText type="number" class="form-control" @bind-Value="@cuot.Numero_cuotas" />
             <ValidationMessage For="@(() => cuot.Numero_cuotas)" />
         </div>
     </div>
@@ -28,7 +13,7 @@
     <div class="form-group">
         <label>Total pagado</label>
         <div>
-            <InputText class="form-control" @bind-Value="@cuot.total" />
+            <InputText type="number" class="form-control" @bind-Value="@cuot.total" />
             <ValidationMessage For="@(() => cuot.total)" />
         </div>
     </div>

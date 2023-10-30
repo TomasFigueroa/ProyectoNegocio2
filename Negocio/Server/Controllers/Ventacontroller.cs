@@ -27,27 +27,22 @@ namespace Negocio.Server.Controllers
             [HttpGet("{id:int}")]
             public async Task<ActionResult<Venta>> Get(int Id)
             {
-                var existe = await context.ventas.AnyAsync(x => x.Idpersona == Id);
+                var existe = await context.ventas.AnyAsync(x => x.id == Id);
                 if (!existe)
                 {
                     return NotFound($"La Venta {Id} no existe");
                 }
-                return await context.ventas.FirstOrDefaultAsync(x => x.Idpersona == Id);
+                return await context.ventas.FirstOrDefaultAsync(x => x.id == Id);
             }
             [HttpPost]
             public async Task<ActionResult<int>> Post(VentaDTO venta)
             {
                 Venta x = new Venta();
-                var entidad = await context.ventas.FirstOrDefaultAsync(x => x.Idpersona == venta.idpersona);
-
-                if (entidad != null)
-                {
-                    return BadRequest("Ya existe una venta con ese número");
-                }
+               
                 try
                 {
 
-                    x.Codigo_Cuenta = venta.codigo_venta;
+                    x.Saldo_Total = venta.codigo_venta;
                     x.descripcion = venta.descripcion;
                    x.Idpersona= venta.idpersona;
 
@@ -61,15 +56,15 @@ namespace Negocio.Server.Controllers
 
             }
             [HttpPut]
-            public async Task<IActionResult> Editar(VentaDTO venta, string Nc)
+            public async Task<IActionResult> Editar(VentaDTO venta, int Nc)
             {
                 var responseApi = new ResponseAPI<int>();
                 try
                 {
-                    var dbventa = await context.ventas.FirstOrDefaultAsync(e => e.Codigo_Cuenta == Nc);
+                    var dbventa = await context.ventas.FirstOrDefaultAsync(e => e.id == Nc);
                     if (dbventa != null)
                     {
-                             dbventa.Codigo_Cuenta = venta.codigo_venta;
+                             dbventa.Saldo_Total = venta.codigo_venta;
 
                              dbventa.descripcion = venta.descripcion;
 
@@ -94,7 +89,25 @@ namespace Negocio.Server.Controllers
                 }
                 return Ok(responseApi);
             }
-            [HttpDelete("{Id:int}")]
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(Venta entidad, int id)
+        {
+            if (id != entidad.id)
+            {
+                return BadRequest("El id de la venta no corresponde.");
+            }
+
+            var existe = await context.ventas.AnyAsync(x => x.id == id);
+            if (!existe)
+            {
+                return NotFound($"La venta de id={id} no existe");
+            }
+
+            context.Update(entidad);
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+        [HttpDelete("{Id:int}")]
             public async Task<ActionResult> Delete(int Id)
             {
                 var existe = await context.ventas.AnyAsync(x => x.id == Id);

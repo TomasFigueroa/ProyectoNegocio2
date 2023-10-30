@@ -59,12 +59,12 @@ namespace Negocio.Server.Controllers
             
         }
         [HttpPut]
-        public async Task<IActionResult> Editar(PersonaDTO personaDTO, string dni)
+        public async Task<IActionResult> Editar(PersonaDTO personaDTO, int dni)
         {
             var responseApi = new ResponseAPI<int>();
             try
             {
-                var dbPersona = await context.personas.FirstOrDefaultAsync(e => e.DNI == dni);
+                var dbPersona = await context.personas.FirstOrDefaultAsync(e => e.DNI == dni.ToString());
                 if (dbPersona != null)
                 {
                     dbPersona.DNI = personaDTO.DNI;
@@ -109,14 +109,16 @@ namespace Negocio.Server.Controllers
             await context.SaveChangesAsync();
             return Ok();
         }
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{Id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
             var existe = await context.personas.AnyAsync(x => x.Id == id);
             if (!existe)
             {
-                return NotFound($"La Persona de id={id} no existe");
+
+                return NotFound($"La Persona No Existe");
             }
+            
             Personas pepe = new Personas();
             pepe.Id = id;
 

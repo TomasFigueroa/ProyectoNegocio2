@@ -12,8 +12,8 @@ using Negocio.Bdata.Data;
 namespace Negocio.Bdata.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230915231709_inicio1")]
-    partial class inicio1
+    [Migration("20231029235700_inicalq1q29")]
+    partial class inicalq1q29
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,10 +44,8 @@ namespace Negocio.Bdata.Migrations
                     b.Property<int?>("Ventaid")
                         .HasColumnType("int");
 
-                    b.Property<string>("codigo_cuotas")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                    b.Property<int>("dnipersona")
+                        .HasColumnType("int");
 
                     b.Property<string>("total")
                         .IsRequired()
@@ -57,9 +55,6 @@ namespace Negocio.Bdata.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Ventaid");
-
-                    b.HasIndex(new[] { "codigo_cuotas" }, "Cuota_Codigo_cuotas_UQ")
-                        .IsUnique();
 
                     b.ToTable("cuotas");
                 });
@@ -113,16 +108,16 @@ namespace Negocio.Bdata.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Codigo_Cuenta")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
                     b.Property<int>("Idpersona")
                         .HasColumnType("int");
 
                     b.Property<int?>("PersonasId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Saldo_Total")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("descripcion")
                         .IsRequired()
@@ -132,9 +127,6 @@ namespace Negocio.Bdata.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("PersonasId");
-
-                    b.HasIndex(new[] { "Codigo_Cuenta" }, "Venta_Codigo_Cuenta_UQ")
-                        .IsUnique();
 
                     b.ToTable("ventas");
                 });
